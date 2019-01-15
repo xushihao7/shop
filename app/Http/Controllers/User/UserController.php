@@ -125,8 +125,8 @@ class UserController extends Controller
                  setcookie("token",$token,time()+86400,"/user","",false,true);
                  $request->session()->put('u_token',$token);
                  $request->session()->put("uid",$res->uid);
-                 echo "登录成功";
                  header("refresh:1,url=/user/center");
+                 echo "登录成功";
              }else{
                  echo "账号或者密码错误,请重新登录";
                  header("refresh:1,url=/user/login");

@@ -1,6 +1,6 @@
 @extends("layout.bst")
 @section('content')
-<form class="form-horizontal" action="/user/reg" method="post" style="margin-top: 30px">
+<form class="form-horizontal" action="/register" method="post" style="margin-top: 30px">
     {{csrf_field()}}
     <div class="form-group" >
         <label for="inputEmail3" class="col-sm-2 control-label">账号</label>

@@ -49,10 +49,10 @@ Route::get('/query/where','Test\TestController@query2');
 Route::any('/test/abc','Test\TestController@abc');
 //用户注册
 Route::get("/user/reg",'User\UserController@register');
-Route::post("/user/reg",'User\UserController@doReg');
+Route::post("/register",'User\UserController@doReg');
 //用户登录
 Route::get("/user/login",'User\UserController@login');
-Route::post("/user/login",'User\UserController@doLogin');
+Route::post("/login",'User\UserController@doLogin');
 //用户页面
 Route::get("/user/center",'User\UserController@center');
 //中间架
