@@ -46,7 +46,7 @@ class IndexController extends Controller
             echo "下单失败";
         }
         echo "下单成功,您的订单号为".$order_sn."正在跳转支付";
-        header("refresh:1,url=/pay/alipay/test");
+        //header("refresh:1,url=/pay/alipay/test");
         //清除购物车
         CartModel::where(['uid'=>session()->get('uid')])->delete();
 
