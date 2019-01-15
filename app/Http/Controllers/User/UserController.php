@@ -122,7 +122,7 @@ class UserController extends Controller
                  $token=substr(md5(time().mt_rand(1,99999)),10,10);
                  setcookie("uid",$res->uid,time()+86400,"/",'',false,true);
                  setcookie("uname",$res->name,time()+86400,"/",'',false,true);
-                 setcookie("token",$token,time()+86400,"/user","",false,true);
+                 setcookie("token",$token,time()+86400,"/","",false,true);
                  $request->session()->put('u_token',$token);
                  $request->session()->put("uid",$res->uid);
                  header("refresh:1,url=/user/center");

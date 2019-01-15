@@ -60,7 +60,7 @@ Route::get('/test/check_cookie','Test\TestController@checkCookie')->middleware('
 
 //购物车
 Route::get('/cart','Cart\IndexController@index')->middleware('check.login'); //购物车展示
-Route::get('/goods/{goods_id}','Goods\IndexController@index')->middleware("check.login");//购物车添加页面
+Route::get('/goods/{goods_id}','Goods\IndexController@index');//购物车添加页面
 Route::post('/cart/add2','Cart\IndexController@add2')->middleware("check.login");//购物车添加
 Route::get("/cart/del1/{goods_id}",'Cart\IndexController@del1')->middleware("check.login");//购物车删除
 //订单
