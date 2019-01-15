@@ -52,7 +52,7 @@ Route::get("/user/reg",'User\UserController@register');
 Route::post("/user/reg",'User\UserController@doreg');
 //用户登录
 Route::get("/user/login",'User\UserController@login');
-Route::post("/user/login",'User\UserController@dologin');
+Route::post("/user/login",'User\UserController@doLogin');
 //用户页面
 Route::get("/user/center",'User\UserController@center');
 //中间架
