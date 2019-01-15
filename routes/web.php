@@ -66,10 +66,11 @@ Route::get("/cart/del1/{goods_id}",'Cart\IndexController@del1')->middleware("che
 //订单
 Route::get("/order/add",'Order\IndexController@add')->middleware("check.login");//提交订单号
 Route::get("/order/list",'Order\IndexController@list')->middleware("check.login");//订单展示
-Route::get("/pay/order/{order_id}",'Pay\IndexController@order')->middleware("check.login");//订单支付
+//Route::get("/pay/order/{order_id}",'Pay\IndexController@order')->middleware("check.login");//订单支付
 //退出
 Route::get("/user/quit",'User\UserController@quit');
 //支付
 Route::get("/pay/alipay/test",'Pay\AlipayController@test');//
 Route::get("/pay/alipay/return",'Pay\AlipayController@aliReturn');//支付宝同步
 Route::post("pay/alipay/notify",'Pay\AlipayController@aliNotify');//支付宝异步
+Route::get("pay/order/{order_id}",'Pay\AlipayController@pay')->middleware("check.login");//订单支付
