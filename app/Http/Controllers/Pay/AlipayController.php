@@ -193,7 +193,7 @@ class AlipayController extends Controller
             file_put_contents('logs/alipay.log',$log_str,FILE_APPEND);
         }
         //处理订单逻辑
-       if($_POST['trade_status']=='TRADE_SUCCESS'){
+       if($_POST['trade_status']=="TRADE_SUCCESS"){
             //更新订单状态
            $order_id=$_POST['out_trade_no'];
            $info=[
@@ -220,12 +220,9 @@ class AlipayController extends Controller
             wordwrap($pubKey, 64, "\n", true) .
             "\n-----END PUBLIC KEY-----";
         //转换为openssl格式密钥
-
         $res = openssl_get_publickey($pubKey);
         ($res) or die('支付宝RSA公钥错误。请检查公钥文件格式是否正确');
-
         //调用openssl内置方法验签，返回bool值
-
         $result = (openssl_verify($this->getSignContent($params), base64_decode($sign), $res, OPENSSL_ALGO_SHA256)===1);
         openssl_free_key($res);
         return $result;
