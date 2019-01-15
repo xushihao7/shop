@@ -49,7 +49,7 @@ Route::get('/query/where','Test\TestController@query2');
 Route::any('/test/abc','Test\TestController@abc');
 //用户注册
 Route::get("/user/reg",'User\UserController@register');
-Route::post("/user/reg",'User\UserController@doreg');
+Route::post("/user/reg",'User\UserController@doReg');
 //用户登录
 Route::get("/user/login",'User\UserController@login');
 Route::post("/user/login",'User\UserController@doLogin');
