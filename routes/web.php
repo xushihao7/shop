@@ -72,5 +72,5 @@ Route::get("/user/quit",'User\UserController@quit');
 //支付
 Route::get("/pay/alipay/test",'Pay\AlipayController@test');//
 Route::get("/pay/alipay/return",'Pay\AlipayController@aliReturn');//支付宝同步
-Route::post("pay/alipay/notify",'Pay\AlipayController@aliNotify');//支付宝异步
-Route::get("pay/order/{order_id}",'Pay\AlipayController@pay')->middleware("check.login");//订单支付
+Route::post("/pay/alipay/notify",'Pay\AlipayController@aliNotify');//支付宝异步
+Route::get("/pay/order/{order_id}",'Pay\AlipayController@pay')->middleware("check.login");//订单支付
