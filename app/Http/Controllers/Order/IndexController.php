@@ -16,7 +16,7 @@ class IndexController extends Controller
 
     public function  list(){
         $uid=Auth::id();
-        $list=OrderModel::where(['uid'=>$uid])->get();
+        $list=OrderModel::where(['uid'=>$uid])->get()->toArray();
         $data=[
             'list'=>$list
         ];

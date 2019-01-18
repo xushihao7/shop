@@ -12,8 +12,8 @@
             </tr>
             @foreach($list as $k=>$v)
                 <tr class="active">
-                    <td>{{$v->order_sn}}</td>
-                    <td>￥{{$v->order_amount}}</td>
+                    <td>{{$v['order_sn']}}</td>
+                    <td>￥{{$v['order_amount']}}</td>
                     <td>
                         @if($v['is_pay']==1)
                             已支付
@@ -23,7 +23,7 @@
                     </td>
                     <td>
                         @if($v['is_pay']==2)
-                        <a href="/pay/order/{{$v->order_id}}" class="btn btn-info">去支付</a>
+                        <a href="/pay/order/{{$v['order_id']}}" class="btn btn-info">去支付</a>
                         <a href="#" class="btn btn-info">取消订单</a>
                         @elseif($v['is_pay']==1)
                             <a href="#" class="btn btn-info">退款</a>

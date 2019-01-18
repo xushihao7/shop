@@ -19,7 +19,8 @@ class IndexController extends Controller
     public function index(Request $request)
     {
         //查询购物车中的信息
-        $cart_goods=CartModel::where(['uid'=>Auth::id()])->get()->toArray();
+        $uid=Auth::id();
+        $cart_goods=CartModel::where(['uid'=>$uid])->get();
         if(empty($cart_goods)){
             header("refresh:1,url=/");
             echo "购物车为空";
