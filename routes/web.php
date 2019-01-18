@@ -50,6 +50,8 @@ Route::any('/test/abc','Test\TestController@abc');
 
 //用户页面
 Route::get("/user/center",'User\UserController@center');
+//商品列表
+Route::get("/goodslist",'Goods\IndexController@list');
 //中间架
 Route::get('/test/check_cookie','Test\TestController@checkCookie');
 

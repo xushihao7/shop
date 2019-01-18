@@ -23,5 +23,12 @@ class IndexController extends Controller
            ];
            return view("goods.index",$data);
        }
+       public function list(){
+          $list=GoodsModel::paginate(2);
+          $data=[
+               'list'=>$list
+           ];
+          return view("goods.list",$data);
+       }
 
 }
