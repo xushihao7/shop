@@ -47,25 +47,20 @@ Route::get('/query/where','Test\TestController@query2');
 //Route::match(['get','post'],'/test/abc','Test\TestController@abc');
 //Route::any('/test/abc','Test\TestController@abc');
 Route::any('/test/abc','Test\TestController@abc');
-//用户注册
-Route::get("/user/reg",'User\UserController@register');
-Route::post("/register",'User\UserController@doReg');
-//用户登录
-Route::get("/user/login",'User\UserController@login');
-Route::post("/login",'User\UserController@doLogin');
+
 //用户页面
 Route::get("/user/center",'User\UserController@center');
 //中间架
-Route::get('/test/check_cookie','Test\TestController@checkCookie')->middleware('check.cookie');
+Route::get('/test/check_cookie','Test\TestController@checkCookie');
 
 //购物车
-Route::get('/cart','Cart\IndexController@index')->middleware('check.login'); //购物车展示
+Route::get('/cart','Cart\IndexController@index'); //购物车展示
 Route::get('/goods/{goods_id}','Goods\IndexController@index');//购物车添加页面
-Route::post('/cart/add2','Cart\IndexController@add2')->middleware("check.login");//购物车添加
-Route::get("/cart/del1/{goods_id}",'Cart\IndexController@del1')->middleware("check.login");//购物车删除
+Route::post('/cart/add2','Cart\IndexController@add2');//购物车添加
+Route::get("/cart/del1/{goods_id}",'Cart\IndexController@del1');//购物车删除
 //订单
-Route::get("/order/add",'Order\IndexController@add')->middleware("check.login");//提交订单号
-Route::get("/order/list",'Order\IndexController@list')->middleware("check.login");//订单展示
+Route::get("/order/add",'Order\IndexController@add');//提交订单号
+Route::get("/order/list",'Order\IndexController@list');//订单展示
 //Route::get("/pay/order/{order_id}",'Pay\IndexController@order')->middleware("check.login");//订单支付
 //退出
 Route::get("/user/quit",'User\UserController@quit');
@@ -73,4 +68,7 @@ Route::get("/user/quit",'User\UserController@quit');
 Route::get("/pay/alipay/test",'Pay\AlipayController@test');//
 Route::get("/pay/alipay/return",'Pay\AlipayController@aliReturn');//支付宝同步
 Route::post("/pay/alipay/notify",'Pay\AlipayController@aliNotify');//支付宝异步
-Route::get("/pay/order/{order_id}",'Pay\AlipayController@pay')->middleware("check.login");//订单支付
+Route::get("/pay/order/{order_id}",'Pay\AlipayController@pay');//订单支付
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

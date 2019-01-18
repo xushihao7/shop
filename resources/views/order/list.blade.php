@@ -13,7 +13,7 @@
             @foreach($list as $k=>$v)
                 <tr class="active">
                     <td>{{$v->order_sn}}</td>
-                    <td>￥{{$v->order_amount/100}}</td>
+                    <td>￥{{$v->order_amount}}</td>
                     <td>
                         @if($v['is_pay']==1)
                             已支付

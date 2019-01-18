@@ -12,7 +12,7 @@
            @foreach($list as $k=>$v)
                <tr>
                    <td>{{$v->goods_name}}</td>
-                   <td>￥{{$v->goods_price/100}}</td>
+                   <td>￥{{$v->goods_price}}</td>
                    <td>{{$v->num}}</td>
                    <td>{{date("Y-m-d H:i:s",$v->add_time)}}</td>
                    <td><a href="/cart/del1/{{$v->goods_id}}" class="btn btn-info">删除</a></td>

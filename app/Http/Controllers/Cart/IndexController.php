@@ -6,22 +6,20 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\GoodsModel;
 use App\Model\CartModel;
+use Illuminate\Support\Facades\Auth;
 class IndexController extends Controller
 {
 
-    public function __construct()
+    public function  __construct()
     {
-         $this->middleware(function ($request,$next){
-             $this->uid =session()->get('uid');
-             return  $next($request);
-         });
+        $this->middleware("auth");
     }
 
     //购物车展示
     public function index(Request $request)
     {
         //查询购物车中的信息
-        $cart_goods=CartModel::where(['uid'=>$this->uid])->get()->toArray();
+        $cart_goods=CartModel::where(['uid'=>Auth::id()])->get()->toArray();
         if(empty($cart_goods)){
             header("refresh:1,url=/");
             echo "购物车为空";
@@ -56,7 +54,7 @@ class IndexController extends Controller
          //判断购物车中是否已经存在该商品 存在商品做累计 否则入库
          $where=[
              'goods_id'=>$goods_id,
-             'uid'=>$this->uid
+             'uid'=>Auth::id()
          ];
          $cartInfo=CartModel::where($where)->first();
          $buy_num=$cartInfo['num'];
@@ -91,7 +89,7 @@ class IndexController extends Controller
              $data=[
                  'goods_id'=>$goods_id,
                  'num'=>$num,
-                 'uid'=>$this->uid,
+                 'uid'=>Auth::id(),
                  'session_token'=>session()->get("u_token"),
                  'add_time'=>time()
              ];
@@ -126,7 +124,7 @@ class IndexController extends Controller
         }
          $where=[
              'goods_id'=>$goods_id,
-             'uid'=>$this->uid
+             'uid'=>auth::id()
          ];
          $res=CartModel::where($where)->delete();
          if($res){
