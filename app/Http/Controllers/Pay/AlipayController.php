@@ -72,7 +72,7 @@ class AlipayController extends Controller
         $bizcont = [
             'subject'           => 'lening_shop: '.$order_id,
             'out_trade_no'      => $order_id,
-            'total_amount'      => $orderInfo['order_amount'] / 100,
+            'total_amount'      => $orderInfo['order_amount'],
             'product_code'      => 'QUICK_WAP_WAY',
 
         ];
