@@ -14,6 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/', function () {
+    phpinfo();
+});
 
 
 Route::get('/adduser','User\UserController@add');
@@ -74,3 +77,6 @@ Route::get("/pay/order/{order_id}",'Pay\AlipayController@pay');//订单支付
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+//在线订座
+Route::get('/movie/seat','Movie\IndexController@index');
+Route::get('/movie/buy/{pos}/{status}','Movie\IndexController@buy');
