@@ -14,9 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/', function () {
+/*Route::get('/', function () {
     phpinfo();
-});
+});*/
 
 
 Route::get('/adduser','User\UserController@add');
