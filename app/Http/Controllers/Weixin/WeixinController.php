@@ -36,21 +36,31 @@ class WeixinController extends Controller
     public function wxEvent()
     {
         $data = file_get_contents("php://input");
+
+
         //解析XML
-        $xml=simplexml_load_string($data);//将xml字符串转换成对象
-        $event=$xml->Event;  ///事件类型
+        $xml = simplexml_load_string($data);  //将 xml字符串 转换成对象
+
+        $event = $xml->Event;                 //事件类型
+        //var_dump($xml);echo '<hr>';
+
         if($event=='subscribe'){
-            $openid=$xml->FrpmUserName; //用户的openid
-            $sub_time=$xml->CreateTime; //扫描关注的时间
-            echo 'openid:'.$openid;echo '</br>';
-            echo '$sub_time:'.$sub_time;
-               //获取用户信息
-            $user_info=$this->getUserInfo($openid);
-            echo '<pre/>';print_r($user_info);echo'</pre>';
+            $openid = $xml->FromUserName;               //用户openid
+            $sub_time = $xml->CreateTime;               //扫码关注时间
+
+
+            echo 'openid: '.$openid;echo '</br>';
+            echo '$sub_time: ' . $sub_time;
+
+            //获取用户信息
+            $user_info = $this->getUserInfo($openid);
+            echo '<pre>';print_r($user_info);echo '</pre>';
+
             //保存用户信息
-            $u=WeixinUser::where(['openid'=>$openid])->first();
-            if($u){
-                echo "用户已存在";
+            $u = WeixinUser::where(['openid'=>$openid])->first();
+            //var_dump($u);die;
+            if($u){       //用户不存在
+                echo '用户已存在';
             }else{
                 $user_data = [
                     'openid'            => $openid,
@@ -60,10 +70,12 @@ class WeixinController extends Controller
                     'headimgurl'        => $user_info['headimgurl'],
                     'subscribe_time'    => $sub_time,
                 ];
+
                 $id = WeixinUser::insertGetId($user_data);      //保存用户信息
                 var_dump($id);
             }
         }
+
         $log_str = date('Y-m-d H:i:s') . "\n" . $data . "\n<<<<<<<";
         file_put_contents('logs/wx_event.log',$log_str,FILE_APPEND);
     }
