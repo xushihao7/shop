@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redis;
 use App\Model\WeixinUser;
+use GuzzleHttp;
 
 class WeixinController extends Controller
 {
@@ -16,7 +17,7 @@ class WeixinController extends Controller
     {
         //echo __METHOD__;
         //$this->getWXAccessToken();
-        $this->getUserInfo(1);
+        echo 'Token: '. $this->getWXAccessToken();
     }
 
     /**
@@ -43,13 +44,11 @@ class WeixinController extends Controller
 
         $event = $xml->Event;                 //事件类型
         //var_dump($xml);echo '<hr>';
+        $openid = $xml->FromUserName;               //用户openid
 
         if($event=='subscribe'){
-            $openid = $xml->FromUserName;               //用户openid
-            $sub_time = $xml->CreateTime;               //扫码关注时间
-
-
             echo 'openid: '.$openid;echo '</br>';
+            $sub_time = $xml->CreateTime;               //扫码关注时间
             echo '$sub_time: ' . $sub_time;
 
             //获取用户信息
@@ -74,11 +73,21 @@ class WeixinController extends Controller
                 $id = WeixinUser::insertGetId($user_data);      //保存用户信息
                 var_dump($id);
             }
+        }elseif($event=="CLICK"){
+            if($xml->EventKey=='kefu01'){
+                $this->kefu01($openid,$xml->ToUserName);
+            }
         }
 
         $log_str = date('Y-m-d H:i:s') . "\n" . $data . "\n<<<<<<<";
         file_put_contents('logs/wx_event.log',$log_str,FILE_APPEND);
     }
+    //客服回复
+  public  function kefu01($openid,$form){
+         //文本消息
+         $xml_response="<xml><ToUserName>< ![CDATA[".$openid."] ]></ToUserName><FromUserName>< ![CDATA[".$form."] ]></FromUserName> <CreateTime>".time()."</CreateTime> <MsgType>< ![CDATA[text] ]></MsgType> <Content>< ![CDATA['.'Hello word,现在时间'.date('Y-m-d H:i:s').'] ]></Content> </xml>";
+         echo $xml_response;
+  }
 
 
 
@@ -131,6 +140,68 @@ class WeixinController extends Controller
         $data = json_decode(file_get_contents($url),true);
         return $data;
         //echo '<pre>';print_r($data);echo '</pre>';
+    }
+    public function  createMenu(){
+        //1获取access_token 拼接请求接口
+         $access_token=$this->getWXAccessToken();
+        $url="https://api.weixin.qq.com/cgi-bin/menu/create?access_token=".$access_token;
+        //2请求微信接口
+        $client=new GuzzleHttp\Client(['base_uri'=>$url]);
+        $data = [
+            "button"    => [
+                [
+                    "name"=>"nba球队",
+                    "sub_button"=>[
+                        [
+                          'type'=>"view",
+                            'name'=>"湖人队",
+                            'url'=>"https://china.nba.com/lakers/"
+                        ],
+                        [
+                            'type'=>"view",
+                            'name'=>"勇士队",
+                            'url'=>"https://china.nba.com/warriors/"
+                        ],
+                        [
+                            'type'=>"view",
+                            'name'=>"火箭队",
+                            'url'=>"https://china.nba.com/rockets/"
+                        ],
+
+                    ]
+                ],
+                [
+                    'name'=>'nba排名',
+                    'sub_button'=>[
+                        [
+                            'type'=>"view",
+                            'name'=>'联盟排名',
+                            'url'=>'https://china.nba.com/standings/'
+                        ]
+                    ]
+                ],
+                [
+                    'type'=>"click",
+                    'name'=>"客服01",
+                    'key'=>"kefu01"
+                ]
+
+
+            ]
+        ];
+        $r=$client->request("POST",$url,[
+            "body"=>json_encode($data,JSON_UNESCAPED_UNICODE)
+        ]);
+        //3 解析微信接口返回信息
+        $response_arr=json_decode($r->getBody(),true);
+        //print_r($response_arr);die;
+        if($response_arr['errcode'] == 0){
+            echo "菜单创建成功";
+        }else{
+            echo "菜单创建失败，请重试";echo '</br>';
+            echo $response_arr['errmsg'];
+
+        }
     }
 
 }
