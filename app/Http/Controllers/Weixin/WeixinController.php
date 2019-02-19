@@ -47,7 +47,7 @@ class WeixinController extends Controller
         $openid = $xml->FromUserName;               //用户openid
 
         if($event=='subscribe'){
-            echo 'openid: '.$openid;echo '</br>';
+            //echo 'openid: '.$openid;echo '</br>';
             $sub_time = $xml->CreateTime;               //扫码关注时间
             echo '$sub_time: ' . $sub_time;
 
@@ -82,12 +82,18 @@ class WeixinController extends Controller
         $log_str = date('Y-m-d H:i:s') . "\n" . $data . "\n<<<<<<<";
         file_put_contents('logs/wx_event.log',$log_str,FILE_APPEND);
     }
-    //客服回复
-  public  function kefu01($openid,$form){
-         //文本消息
-         $xml_response="<xml><ToUserName>< ![CDATA[".$openid."] ]></ToUserName><FromUserName>< ![CDATA[".$form."] ]></FromUserName> <CreateTime>".time()."</CreateTime> <MsgType>< ![CDATA[text] ]></MsgType> <Content>< ![CDATA['.'Hello word,现在时间'.date('Y-m-d H:i:s').'] ]></Content> </xml>";
-         echo $xml_response;
-  }
+    /**
+     * 客服处理
+     * @param $openid   用户openid
+     * @param $from     开发者公众号id 非 APPID
+     */
+    public function kefu01($openid,$from)
+    {
+        // 文本消息
+        $xml_response = '<xml><ToUserName><![CDATA['.$openid.']]></ToUserName><FromUserName><![CDATA['.$from.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['. 'Hello World, 现在时间'. date('Y-m-d H:i:s') .']]></Content></xml>';
+        echo $xml_response;
+    }
+
 
 
 
@@ -181,9 +187,9 @@ class WeixinController extends Controller
                     ]
                 ],
                 [
-                    'type'=>"click",
-                    'name'=>"客服01",
-                    'key'=>"kefu01"
+                    "type"=>"click",
+                    "name"=>"客服01",
+                    "key"=>"kefu01"
                 ]
 
 
