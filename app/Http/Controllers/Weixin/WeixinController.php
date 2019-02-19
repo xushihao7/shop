@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redis;
 use App\Model\WeixinUser;
 use GuzzleHttp;
+use Illuminate\Support\Facades\Storage;
 
 class WeixinController extends Controller
 {
@@ -52,9 +53,17 @@ class WeixinController extends Controller
                 $xml_response= '<xml><ToUserName><![CDATA['.$openid.']]></ToUserName><FromUserName><![CDATA['.$xml->ToUserName.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['.$msg. date('Y-m-d H:i:s') .']]></Content></xml>';
                 echo $xml_response;
                 exit();
+            }elseif($xml->MsgType=='image'){
+                //视业务需求是否需要下载保存图片
+                if(1){//下载图片素材
+                    $this->dlWxImg($xml->MediaId);
+                    $xml_response='<xml><ToUserName><![CDATA['.$openid.']]></ToUserName><FromUserName><![CDATA['.$xml->ToUserName.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['. str_random(10) . ' >>> ' . date('Y-m-d H:i:s') .']]></Content></xml>';
+                    echo $xml_response;
+                    exit();
+                }
             }
         }
-
+          //判断事件类型
         if($event=='subscribe'){
             //echo 'openid: '.$openid;echo '</br>';
             $sub_time = $xml->CreateTime;               //扫码关注时间
@@ -68,7 +77,7 @@ class WeixinController extends Controller
             $u = WeixinUser::where(['openid'=>$openid])->first();
             //var_dump($u);die;
             if($u){       //用户不存在
-                echo '用户已存在';
+                echo '用户已经存在';
             }else{
                 $user_data = [
                     'openid'            => $openid,
@@ -101,6 +110,23 @@ class WeixinController extends Controller
         // 文本消息
         $xml_response = '<xml><ToUserName><![CDATA['.$openid.']]></ToUserName><FromUserName><![CDATA['.$from.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['. 'Hello World, 现在时间'. date('Y-m-d H:i:s') .']]></Content></xml>';
         echo $xml_response;
+    }
+    //下载图片素材
+    public  function  dlWxImg($media_id){
+        $url='https://api.weixin.qq.com/cgi-bin/media/get?access_token='.$this->getWXAccessToken().'&media_id='.$media_id;
+         //保存图片
+        $client=new GuzzleHttp\Client();
+        $response=$client->get($url);
+        //获取文件名
+        $file_info=$response->getHeader('Content-disposition');
+        $file_name=substr(rtrim($file_info[0]),'"',-20);
+        $wx_image_path='wx/image/'.$file_name;
+        $r=Storage::disk('local')->put($wx_image_path,$response->getBody());
+        if($r){
+            //保存成功
+        }else{
+            //保存失败
+        }
     }
 
 
