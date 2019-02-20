@@ -65,6 +65,10 @@ class WeixinController extends Controller
                 $this->dlVoice($xml->MediaId);
                 $xml_response='<xml><ToUserName><![CDATA['.$openid.']]></ToUserName><FromUserName><![CDATA['.$xml->ToUserName.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['. str_random(10) . ' >>> ' . date('Y-m-d H:i:s') .']]></Content></xml>';
                 echo $xml_response;
+            }elseif($xml->MsgType=='video'){
+                $this->dlVideo($xml->MediaId);
+                $xml_response='<xml><ToUserName><![CDATA['.$openid.']]></ToUserName><FromUserName><![CDATA['.$xml->ToUserName.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['. str_random(10) . ' >>> ' . date('Y-m-d H:i:s') .']]></Content></xml>';
+                echo $xml_response;
             }
         }
           //判断事件类型
@@ -135,13 +139,30 @@ class WeixinController extends Controller
     //下载语音消息
     public  function  dlVoice($media_id){
         $url='https://api.weixin.qq.com/cgi-bin/media/get?access_token='.$this->getWXAccessToken().'&media_id='.$media_id;
+        //保存图片
         $client=new GuzzleHttp\Client();
         $response=$client->get($url);
         //获取文件名
         $file_info=$response->getHeader('Content-disposition');
         $file_name=substr(rtrim($file_info[0],'"'),-20);
-        $wx_voice_path='wx/voice'.$file_name;
-        $r=Storage::disk('local')->put($wx_voice_path,$response->getBody());
+        $wx_image_path='wx/voice/'.$file_name;
+        $r=Storage::disk('local')->put($wx_image_path,$response->getBody());
+        if($r){
+            //保存成功
+        }else{
+            //保存失败
+        }
+    }
+    //下载视频消息
+    public  function  dlVideo($media_id){
+        $url='https://api.weixin.qq.com/cgi-bin/media/get?access_token='.$this->getWXAccessToken().'&media_id='.$media_id;
+        $client=new GuzzleHttp\Client();
+        $response=$client->get($url);
+        //获取文件名
+        $file_info=$response->getHeader('Content-disposition');
+        $file_name=substr(rtrim($file_info[0],'"'),-20);
+        $wx_video_path='wx/video'.$file_name;
+        $r=Storage::disk('local')->put($wx_video_path,$response->getBody());
         if($r){  //保存成功
 
         }else{   //保存失败
@@ -149,7 +170,6 @@ class WeixinController extends Controller
         }
 
     }
-
 
 
 
