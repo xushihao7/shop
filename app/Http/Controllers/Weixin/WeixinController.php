@@ -61,6 +61,10 @@ class WeixinController extends Controller
                     echo $xml_response;
                     exit();
                 }
+            }elseif($xml->MsgType=="voice"){ //处理语音消息
+                $this->dlVoice($xml->MediaId);
+                $xml_response='<xml><ToUserName><![CDATA['.$openid.']]></ToUserName><FromUserName><![CDATA['.$xml->ToUserName.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['. str_random(10) . ' >>> ' . date('Y-m-d H:i:s') .']]></Content></xml>';
+                echo $xml_response;
             }
         }
           //判断事件类型
@@ -128,7 +132,23 @@ class WeixinController extends Controller
             //保存失败
         }
     }
+    //下载语音消息
+    public  function  dlVoice($media_id){
+        $url='https://api.weixin.qq.com/cgi-bin/media/get?access_token='.$this->getWXAccessToken().'&media_id='.$media_id;
+        $client=new GuzzleHttp\client();
+        $response=$client->get($url);
+        //获取文件名
+        $file_info=$response->getHeader('Content-disposition');
+        $file_name=substr(rtrim($file_info[0],'"'),-20);
+        $wx_voice_path='wx/voice'.$file_name;
+        $r=Storage::disk('local')->put($wx_voice_path,$response->getBody());
+        if($r){  //保存成功
 
+        }else{   //保存失败
+
+        }
+
+    }
 
 
 
