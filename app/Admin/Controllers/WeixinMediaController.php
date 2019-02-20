@@ -83,12 +83,16 @@ class WeixinMediaController extends Controller
 
         $grid->id('Id');
         $grid->openid('Openid');
-        $grid->add_time('Add time');
+        $grid->add_time('Add time')->display(function($time){
+            return date("Y-m-d H:i:s",$time);
+        });
         $grid->msg_type('Msg type');
         $grid->media_id('Media id');
         $grid->format('Format');
         $grid->msg_id('Msg id');
-        $grid->local_file_name('Local file name');
+        $grid->local_file_name('Local file name')->dislay(function($name){
+            return "<img src='http://xsh.wangby.cn/wx/image/".$name."'>";
+        });
         $grid->local_file_path('Local file path');
 
         return $grid;
