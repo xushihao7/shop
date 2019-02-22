@@ -88,4 +88,8 @@ Route::post('/weixin/valid1','Weixin\WeixinController@wxEvent');        //接收
 Route::post('/weixin/valid','Weixin\WeixinController@validToken');
 
 Route::get('/weixin/create_menu','Weixin\WeixinController@createMenu');
-Route::get('/weixin/sendAll','Weixin\WeixinController@sendAll');
+Route::get('/weixin/sendAll','Weixin\WeixinController@sendAll');//群发消息
+
+Route::get('/weixin/getmedia','Weixin\WeixinController@mediaList');
+Route::get('/form/show','Weixin\WeixinController@formShow');//表单测试
+Route::post('/form/test','Weixin\WeixinController@formTest');//表单测试

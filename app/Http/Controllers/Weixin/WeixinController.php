@@ -45,7 +45,7 @@ class WeixinController extends Controller
         //记录日志
         $log_str = date('Y-m-d H:i:s') . "\n" . $data . "\n<<<<<<<";
         file_put_contents('logs/wx_event.log',$log_str,FILE_APPEND);
-        
+
         $event = $xml->Event;                 //事件类型
         //var_dump($xml);echo '<hr>';
         $openid = $xml->FromUserName;               //用户openid
@@ -210,8 +210,60 @@ class WeixinController extends Controller
         $respone_arr = json_decode($r->getBody(),true);
         echo '<pre>';print_r($respone_arr);echo '</pre>';
     }
+    public  function formShow(){
+        return view("test.form");
+    }
+    public  function  formTest(Request $request){
+        //保存文件
+        $img_file=$request->file("media");
+        $img_origin_name=$img_file->getClientOriginalName();
+        echo 'originName:'.$img_origin_name;echo"<hr/>";
+        $file_ext=$img_file->getClientOriginalExtension();//后缀名
+        echo "ext:".$file_ext;echo"<hr/>";
+        //重命名
+        $new_file_name=str_random(15).'.'.$file_ext;
+        echo 'new_file_name:'.$new_file_name;echo "<hr/>";
+        //保存文件
+        $save_file_path=$request->media->storeAs("form_test",$new_file_name);//返回保存成功之后的路径
+        echo 'save_file_path:'.$save_file_path;echo "<pre>";
+        //上传至微信永久素材
+        $this->upMaterialTest($save_file_path);
 
+    }
+    //上传永久素材
+    public  function  upMaterialTest($save_file_path){
+        $url = 'https://api.weixin.qq.com/cgi-bin/material/add_material?access_token='.$this->getWXAccessToken().'&type=image';
+        $client=new GuzzleHttp\Client();
+        $response=$client->request('POST',$url,[
+           'multipart'=>[
+               [
+                   'name'=>'media',
+                   'contents'=>fopen($save_file_path,'r')
+               ],
+           ]
+        ]);
+        $body=$response->getBody();
+        echo $body;echo "<hr>";
+        $d=json_decode($body,true);
+        echo "<pre>";print_r($d);echo"</pre>";
+    }
+    //获取永久素材列表
+    public function mediaList(){
+         $url="https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token=".$this->getWXAccessToken();
+         $data=[
+             "type"=>'image',
+             "offset"=>"0",
+              "count"=>"1"
+         ];
+        $client = new GuzzleHttp\Client(['base_uri' => $url]);
+        $r = $client->request('POST', $url, [
+            'body' => json_encode($data,JSON_UNESCAPED_UNICODE)
+        ]);
+        $respone_arr = json_decode($r->getBody(),true);
+        echo '<pre>';print_r($respone_arr);echo '</pre>';
 
+    }
+    //
     /**
      * 接收事件推送
      */
@@ -261,6 +313,7 @@ class WeixinController extends Controller
         return $data;
         //echo '<pre>';print_r($data);echo '</pre>';
     }
+    //创建菜单
     public function  createMenu(){
         //1获取access_token 拼接请求接口
          $access_token=$this->getWXAccessToken();

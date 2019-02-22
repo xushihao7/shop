@@ -15,4 +15,7 @@ Route::group([
     $router->resource("/user",UserController::class);
     $router->resource("/weixinUser",WeixinController::class);
     $router->resource("/weixinMedia",WeixinMediaController::class);
+    //上传永久素材
+    $router->resource("/weixinMaterial",WeixinMaterialController::class);
+    $router->post("/weixinMaterial",'WeixinMaterialController@formTest');
 });
