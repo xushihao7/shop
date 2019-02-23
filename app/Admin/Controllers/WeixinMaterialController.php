@@ -12,6 +12,7 @@ use Encore\Admin\Show;
 use Illuminate\Http\Request;
 use GuzzleHttp;
 use Illuminate\Support\Facades\Redis;
+use App\Model\WeixinUser;
 
 class WeixinMaterialController extends Controller
 {
@@ -117,9 +118,56 @@ class WeixinMaterialController extends Controller
         $form->file("media","上传");
         return $form;
     }
+    //群发页面
+    public function sendShow(Content $content)
+    {
+        $f = new \Encore\Admin\Widgets\Form();
+        $f->action('admin/sendAll');
+        $f->textarea('name', '信息');
+        return $content
+            ->header('Create')
+            ->description('description')
+            ->body($f);
+    }
+    //群发信息
+    public function sendAll(Request $request){
+        $name=$request->all();
+       //var_dump($name) ;die;
+        $content=$name['name'];
+        //echo $content;die;
+        $url = 'https://api.weixin.qq.com/cgi-bin/message/mass/send?access_token='.$this->getWXAccessToken();
+        //echo $url;exit;
+        //openid
+        $wxUserInfo = WeixinUser::get()->toArray();
+        //var_dump($wxUserInfo);
+        foreach($wxUserInfo as $v){
+            $openid[]=$v['openid'];
+        }
+        //print_r($openid);
+        //文本群发消息
+        $data = [
+            "touser"    =>  $openid,
+            "msgtype"   =>  "text",
+            "text"      =>  [
+                "content"   =>  $content
+            ]
+        ];
+        $client = new GuzzleHttp\Client(['base_uri' => $url]);
+        $r = $client->request('POST', $url, [
+            'body' => json_encode($data,JSON_UNESCAPED_UNICODE)
+        ]);
+        $respone_arr = json_decode($r->getBody(),true);
+        //echo '<pre>';print_r($respone_arr);echo '</pre>';
+        if($request['errcode']==0){
+            echo "群发成功";
+        }
+    }
 
 
 
+
+
+    //永久素材重命名
     public  function  formTest(Request $request){
         //保存文件
         $img_file=$request->file("media");

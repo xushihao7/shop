@@ -18,4 +18,7 @@ Route::group([
     //上传永久素材
     $router->resource("/weixinMaterial",WeixinMaterialController::class);
     $router->post("/weixinMaterial",'WeixinMaterialController@formTest');
+    //群发
+    $router->get("/weixinSend",'WeixinMaterialController@sendShow');
+    $router->post("admin/sendAll",'WeixinMaterialController@sendAll');
 });

@@ -184,32 +184,7 @@ class WeixinController extends Controller
         }
 
     }
-    //群发信息
-    public function sendAll(){
-        $url = 'https://api.weixin.qq.com/cgi-bin/message/mass/send?access_token='.$this->getWXAccessToken();
-        //echo $url;exit;
-        //openid
-        $wxUserInfo = WeixinUser::get()->toArray();
-        //var_dump($wxUserInfo);
-        foreach($wxUserInfo as $v){
-            $openid[]=$v['openid'];
-        }
-        //print_r($openid);
-        //文本群发消息
-        $data = [
-            "touser"    =>  $openid,
-            "msgtype"   =>  "text",
-            "text"      =>  [
-                "content"   =>  "湖人总冠军,当前时间是:".date('Y-m-d H:i:s')
-            ]
-        ];
-        $client = new GuzzleHttp\Client(['base_uri' => $url]);
-        $r = $client->request('POST', $url, [
-            'body' => json_encode($data,JSON_UNESCAPED_UNICODE)
-        ]);
-        $respone_arr = json_decode($r->getBody(),true);
-        echo '<pre>';print_r($respone_arr);echo '</pre>';
-    }
+
     public  function formShow(){
         return view("test.form");
     }

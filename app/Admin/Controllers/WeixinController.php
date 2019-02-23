@@ -10,6 +10,8 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 
+
+
 class WeixinController extends Controller
 {
     use HasResourceActions;
@@ -98,6 +100,15 @@ class WeixinController extends Controller
 
         return $grid;
     }
+
+
+
+
+
+
+
+
+
 
     /**
      * Make a show builder.
