@@ -12,11 +12,11 @@ setInterval(function(){
             if(d.errno==0){     //服务器响应正常
                 //数据填充
                 if(d.data.msg_type==1){
-                    var msg_str = '<blockquote>' + d.data.add_time +
+                    var msg_str = '<blockquote>' + d.data.created_at+
                         '<p>' + d.data.msg + '</p>' +
                         '</blockquote>'
                 }else{
-                    var msg_str = "<blockquote style='height:70px;'><font style='float: right;clear:both;'>" + d.data.add_time +
+                    var msg_str = "<blockquote style='height:70px;'><font style='float: right;clear:both;'>" + d.data.create_at +
                         '</font><p style="float: right;clear:both;">' + d.data.msg + '</p>' +
                         '</blockquote>';
                 }
