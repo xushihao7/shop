@@ -16,7 +16,7 @@ setInterval(function(){
                         '<p>' + d.data.msg + '</p>' +
                         '</blockquote>'
                 }else{
-                    var msg_str = "<blockquote style='height:70px;'><font style='float: right;clear:both;'>" + d.data.create_at +
+                    var msg_str = "<blockquote style='height:70px;'><font style='float: right;clear:both;'>" + d.data.created_at +
                         '</font><p style="float: right;clear:both;">' + d.data.msg + '</p>' +
                         '</blockquote>';
                 }
