@@ -12,7 +12,7 @@ class PayController extends Controller
 
 
     public $weixin_unifiedorder_url = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
-    public $weixin_notify_url = 'https://xsh.wangby.com/weixin/pay/notice';     //支付通知回调
+    public $weixin_notify_url = 'https://xsh.wangby.cn/weixin/pay/notice';     //支付通知回调
 
     public function test()
     {
