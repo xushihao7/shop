@@ -97,3 +97,9 @@ Route::post('/form/test','Weixin\WeixinController@formTest');//永久素材表�
 Route::get('/form/show','Weixin\WeixinController@messageShow');//微信聊天页面
 Route::get('/weixin/chat/get_msg','Weixin\WeixinController@message');//微信聊天页面
 Route::post('/weixin/chat','Weixin\WeixinController@weixinChat');
+
+
+
+//微信支付
+Route::get('/weixin/pay/test','Weixin\PayController@test');     //微信支付测试
+Route::post('/weixin/pay/notice','Weixin\PayController@notice');     //微信支付通知回调

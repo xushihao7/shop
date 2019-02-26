@@ -21,4 +21,6 @@ Route::group([
     //群发
     $router->get("/weixinSend",'WeixinMaterialController@sendShow');
     $router->post("admin/sendAll",'WeixinMaterialController@sendAll');
+    //聊天
+    //$router->get('/weixinChat/{id}','\App\Http\Controllers\Weixin\WeixinController@messageShow');
 });

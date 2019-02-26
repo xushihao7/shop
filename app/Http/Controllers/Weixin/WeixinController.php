@@ -249,6 +249,7 @@ class WeixinController extends Controller
     }
     //客服消息展示
     public  function  messageShow(){
+
         $data=[
             'openid'=>"oNAoM6O4HQo3jNtBZ7FnG24nOBIo",
         ];
