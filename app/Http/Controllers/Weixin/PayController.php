@@ -173,15 +173,15 @@ class PayController extends Controller
         $data = file_get_contents("php://input");
 
         //记录日志
-        $log_str = date('Y-m-d H:i:s') . "\n" . $data . "\n<<<<<<<";
-        file_put_contents('logs/wx_pay_notice.log',$log_str,FILE_APPEND);
+        //$log_str = date('Y-m-d H:i:s') . "\n" . $data . "\n<<<<<<<";
+        //file_put_contents('logs/wx_pay_notice.log',$log_str,FILE_APPEND);
 
         $xml = simplexml_load_string($data);
 
         if($xml->result_code=='SUCCESS' && $xml->return_code=='SUCCESS'){      //微信支付成功回调
             //验证签名
-            $sign = true;
-
+            //$sign = true;
+             $sign=$this->signTest($data);
             if($sign){       //签名验证成功
                 //TODO 逻辑处理  订单状态更新
                 $info=[
@@ -225,6 +225,14 @@ class PayController extends Controller
             ];
         }
         return $response;
+    }
+    //验证签名
+    public  function   signTest($xml){
+        $data = json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
+        $this->values = [];
+        $this->values = $data;
+        $sign = $this->SetSign();
+        return $sign;
     }
 
 
