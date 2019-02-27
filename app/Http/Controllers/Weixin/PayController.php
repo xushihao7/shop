@@ -59,7 +59,7 @@ class PayController extends Controller
 
         //将 code_url 返回给前端，前端生成 支付二维码
         $list=[
-            'order_sn'=>$order_sn,
+            'order_id'=>$order_id,
             'code_url'=>$data->code_url
         ];
         //var_dump($list);die;
@@ -184,6 +184,15 @@ class PayController extends Controller
 
             if($sign){       //签名验证成功
                 //TODO 逻辑处理  订单状态更新
+                $info=[
+                    'pay_time'=>time(),
+                    'pay_amount'=>$xml->total_fee,
+                    'order_status'=>1,
+                    'is_pay'=>1,
+                    'plat'=>2,
+                    'plat_oid'=>$xml->out_trade_no
+                ];
+                OrderModel::where(['order_sn'=>$xml->out_trade_no])->update($info);
 
             }else{
                 //TODO 验签失败
@@ -197,6 +206,27 @@ class PayController extends Controller
         echo $response;
 
     }
+    public function WxSuccess(Request $request)
+    {
+        $order_id = $request->input('order_id');
+        $where = [
+            'order_id'  =>  $order_id,
+        ];
+        $order_info = OrderModel::where($where)->first();
+        if($order_info['is_pay']==1){
+            $response = [
+                'error' => 0,
+                'msg'   => '支付成功',
+            ];
+        }else{
+            $response = [
+                'error' => 1,
+                'msg'   => '未支付',
+            ];
+        }
+        return $response;
+    }
+
 
 
 
