@@ -14,9 +14,13 @@ class IndexController extends Controller
         $this->middleware("auth");
     }
 
-    public function  list(){
+    public function  orderList(){
         $uid=Auth::id();
-        $list=OrderModel::where(['uid'=>$uid])->get()->toArray();
+        $where=[
+            'uid'=>$uid,
+            'order_status'=>1
+        ];
+        $list=OrderModel::where($where)->get()->toArray();
         $data=[
             'list'=>$list
         ];
@@ -55,6 +59,24 @@ class IndexController extends Controller
         ///header("refresh:1,url=/pay/order/oid");
         //清除购物车
         CartModel::where(['uid'=>Auth::id()])->delete();
+
+    }
+    //取消订单
+    public  function  cancel($order_id){
+        $where=[
+            'order_id'=>$order_id
+        ];
+        $data=[
+            'order_status'=>2
+        ];
+        $res=OrderModel::where($where)->update($data);
+        if($res){
+            echo "取消订单成功";
+            header("refresh:1,url=/order/list");
+        }else{
+            echo "取消订单失败";
+        }
+
 
     }
 

@@ -65,7 +65,8 @@ Route::post('/cart/add2','Cart\IndexController@add2');//购物车添加
 Route::get("/cart/del1/{goods_id}",'Cart\IndexController@del1');//购物车删除
 //订单
 Route::get("/order/add",'Order\IndexController@add');//提交订单号
-Route::get("/order/list",'Order\IndexController@list');//订单展示
+Route::get("/order/list",'Order\IndexController@orderList');//订单展示
+Route::get("/order/cancel/{order_id}",'Order\IndexController@cancel');//取消订单
 //Route::get("/pay/order/{order_id}",'Pay\IndexController@order')->middleware("check.login");//订单支付
 //退出
 Route::get("/user/quit",'User\UserController@quit');
@@ -75,6 +76,7 @@ Route::get("/pay/alipay/return",'Pay\AlipayController@aliReturn');//支付宝同
 Route::post("/pay/alipay/notify",'Pay\AlipayController@aliNotify');//支付宝异步
 Route::get("/pay/order/{order_id}",'Pay\AlipayController@pay');//订单支付
 Auth::routes();
+
 
 Route::get('/home', 'HomeController@index')->name('home');
 //在线订座

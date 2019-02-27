@@ -25,7 +25,7 @@
                         @if($v['is_pay']==2)
                         <a href="/pay/order/{{$v['order_id']}}" class="btn btn-info">支付宝支付</a>
                             <a href="/weixin/pay/test/{{$v['order_id']}}" class="btn btn-info">微信扫码支付</a>
-                        <a href="#" class="btn btn-info">取消订单</a>
+                        <a href="/order/cancel/{{$v['order_id']}}" class="btn btn-info">取消订单</a>
                         @elseif($v['is_pay']==1)
                             <a href="#" class="btn btn-info">退款</a>
                         @elseif($v['order_status']==2)
