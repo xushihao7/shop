@@ -20,9 +20,8 @@ class IndexController extends Controller
     {
         //查询购物车中的信息
         $uid=Auth::id();
-        $cart_goods=CartModel::where(['uid'=>$uid])->get();
+        $cart_goods=CartModel::where(['uid'=>$uid])->get()->toArray();
         if(empty($cart_goods)){
-            header("refresh:1,url=/");
             echo "购物车为空";
             exit;
         }
@@ -38,6 +37,7 @@ class IndexController extends Controller
             'list'=>$list
         ];
         return view("cart.index",$data);
+
     }
     ///购物车添加
     public  function  add2(Request $request){

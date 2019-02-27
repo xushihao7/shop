@@ -98,7 +98,7 @@ class WeixinController extends Controller
             return date("Y-m-d H:i:s",$atime);
         });
 
-        /*$grid->actions(function ($actions) {
+       /* $grid->actions(function ($actions) {
 
             // prepend一个操作
             $actions->getKey();

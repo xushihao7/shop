@@ -14,13 +14,13 @@ class PayController extends Controller
     public $weixin_unifiedorder_url = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
     public $weixin_notify_url = 'https://xsh.wangby.cn/weixin/pay/notice';     //支付通知回调
 
-    public function test()
+    public function test($order_id)
     {
-
 
         //
         $total_fee = 1;         //用户要支付的总金额
-        $order_id = OrderModel::generateOrderSN();
+        //$order_id = OrderModel::generateOrderSN();
+        $order_sn=OrderModel::where(["order_id"=>$order_id])->value("order_sn");
 
         $order_info = [
             'appid'         =>  env('WEIXIN_APPID_0'),      //微信支付绑定的服务号的APPID
@@ -28,7 +28,7 @@ class PayController extends Controller
             'nonce_str'     => str_random(16),             // 随机字符串
             'sign_type'     => 'MD5',
             'body'          => '测试订单-'.mt_rand(1111,9999) . str_random(6),
-            'out_trade_no'  => $order_id,                       //本地订单号
+            'out_trade_no'  => $order_sn,                       //本地订单号
             'total_fee'     => $total_fee,
             'spbill_create_ip'  => $_SERVER['REMOTE_ADDR'],     //客户端IP
             'notify_url'    => $this->weixin_notify_url,        //通知回调地址
@@ -39,7 +39,6 @@ class PayController extends Controller
         $this->values = [];
         $this->values = $order_info;
         $this->SetSign();
-
         $xml = $this->ToXml();      //将数组转换为XML
         $rs = $this->postXmlCurl($xml, $this->weixin_unifiedorder_url, $useCert = false, $second = 30);
 
@@ -54,11 +53,18 @@ class PayController extends Controller
 //		echo 'result_code: '.$data->result_code;echo '<br>';
 //		echo 'prepay_id: '.$data->prepay_id;echo '<br>';
 //		echo 'trade_type: '.$data->trade_type;echo '<br>';
-        echo 'code_url: '.$data->code_url;echo '<br>';
+        //echo 'code_url: '.$data->code_url;echo '<br>';die;//跳转路由
 //        die;
         //echo '<pre>';print_r($data);echo '</pre>';
 
         //将 code_url 返回给前端，前端生成 支付二维码
+        $list=[
+            'order_sn'=>$order_sn,
+            'code_url'=>$data->code_url
+        ];
+        //var_dump($list);die;
+        return view('weixin.pay',$list);
+
 
     }
 

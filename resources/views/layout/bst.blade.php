@@ -26,6 +26,7 @@
                 <div class="navbar-collapse collapse" role="navigation">
                     <ul class="nav navbar-nav">
                         <li class="hidden-sm hidden-md"><a href="/cart/">购物车列表</a></li>
+                        <li class="hidden-sm hidden-md"><a href="/goodslist">商品列表</a></li>
                         {{--<li><a href="#">Bootstrap3中文文档</a></li>
                         <li><a href="#">Bootstrap4中文文档</a></li>
                         <li><a href="#">Less 教程</a></li>
