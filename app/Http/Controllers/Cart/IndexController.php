@@ -22,7 +22,8 @@ class IndexController extends Controller
         $uid=Auth::id();
         $cart_goods=CartModel::where(['uid'=>$uid])->get()->toArray();
         if(empty($cart_goods)){
-            echo "购物车为空";
+            echo "购物车为空，快去选购商品吧";
+            header("refresh:1,url=/goodslist");
             exit;
         }
         if($cart_goods){

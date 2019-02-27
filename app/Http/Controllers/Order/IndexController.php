@@ -20,7 +20,7 @@ class IndexController extends Controller
             'uid'=>$uid,
             'order_status'=>1
         ];
-        $list=OrderModel::where($where)->get()->toArray();
+        $list=OrderModel::where($where)->orderby('order_id',"desc")->get()->toArray();
         $data=[
             'list'=>$list
         ];
@@ -30,8 +30,8 @@ class IndexController extends Controller
          //查询购物车中的商品
         $cartInfo=CartModel::where(['uid'=>Auth::id()])->orderby("cart_id","desc")->get()->toArray();
         if(empty($cartInfo)){
-            header("refresh:1,url=/");
-            echo "购物车为空";
+            echo "购物车为空，快去选购商品吧";
+            header("refresh:1,url=/goodslist");
             exit;
         }
         $order_amount=0;
@@ -55,10 +55,10 @@ class IndexController extends Controller
         if(!$oid){
             echo "下单失败";
         }
-        echo "下单成功,您的订单号为".$order_sn."正在跳转支付";
-        ///header("refresh:1,url=/pay/order/oid");
+        echo "下单成功,您的订单号为".$order_sn."正在跳转订单页面";
         //清除购物车
         CartModel::where(['uid'=>Auth::id()])->delete();
+        header("refresh:1,url=/order/list");
 
     }
     //取消订单
