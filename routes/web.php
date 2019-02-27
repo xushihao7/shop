@@ -103,4 +103,4 @@ Route::post('/weixin/chat','Weixin\WeixinController@weixinChat');
 //微信支付
 Route::get('/weixin/pay/test/{order_id}','Weixin\PayController@test');     //微信支付测试
 Route::post('/weixin/pay/notice','Weixin\PayController@notice');     //微信支付通知回调
-Route::get('/weixin/pay/wxsuccess{order_id}','Weixin\PayController@WxSuccess');     //微信支付通知回调
+Route::get('/weixin/pay/wxsuccess','Weixin\PayController@WxSuccess');     //微信支付通知回调
