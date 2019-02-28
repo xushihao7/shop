@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Weixin;
 
+use App\Model\UserModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redis;
@@ -421,9 +422,8 @@ class WeixinController extends Controller
     public  function  wxLogin(){
         return view("weixin.wxlogin");
     }
-    public  function  getCode(){
-        echo '<pre>';print_r($_GET);echo '</pre>';echo '<hr>';
-        echo '<pre>';print_r($_POST);echo '</pre>';
+    public  function  getCode(Request $request){
+        //echo '<pre>';print_r($_GET);echo '</pre>';echo '<hr>';
 
         $code = $_GET['code'];
 
@@ -431,8 +431,8 @@ class WeixinController extends Controller
         $token_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=wxe24f70961302b5a5&secret=0f121743ff20a3a454e4a12aeecef4be&code='.$code.'&grant_type=authorization_code';
         $token_json = file_get_contents($token_url);
         $token_arr = json_decode($token_json,true);
-        echo '<hr>';
-        echo '<pre>';print_r($token_arr);echo '</pre>';
+        //echo '<hr>';
+        //echo '<pre>';print_r($token_arr);echo '</pre>';
 
         $access_token = $token_arr['access_token'];
         $openid = $token_arr['openid'];
@@ -442,8 +442,52 @@ class WeixinController extends Controller
         $user_json = file_get_contents($user_info_url);
 
         $user_arr = json_decode($user_json,true);
-        echo '<hr>';
-        echo '<pre>';print_r($user_arr);echo '</pre>';
+        //echo '<hr>';
+        //echo '<pre>';print_r($user_arr);echo '</pre>';
+        $unionid=$user_arr['unionid'];
+        $where=[
+            'unionid'=>$unionid
+        ];
+        $wx_userInfo=WeixinUser::where($where)->first();
+        if($wx_userInfo){
+           $user_info=UserModel::where(['wx_id'=>$wx_userInfo->id])->first();
+        }
+        if(empty($wx_userInfo)){
+            $data=[
+                'openid'=>$user_arr['openid'],
+                'nickname'=>$user_arr['nickname'],
+                'sex'=>$user_arr['sex'],
+                'headimgurl'=>$user_arr['headimgurl'],
+                'unionid'=>$unionid,
+                'add_time'=>time()
+            ];
+            $wx_id = WeixinUser::insertGetId($data);
+            $rs = UserModel::insertGetId(['wx_id'=>$wx_id]);
+            if($rs){
+                $token=substr(md5(time().mt_rand(1,99999)),10,10);
+                setcookie('uid',$rs,time()+86400,'/','',false,true);
+                setcookie('token',$token,time()+86400,'/user','',false,true);
+                $request->session()->put('u_token',$token);
+                $request->session()->put('uid',$rs);
+                echo '注册成功';
+
+            }else{
+                echo '注册失败';
+            }
+            exit;
+
+
+
+
+        }
+        $token=substr(md5(time().mt_rand(1,99999)),10,10);
+        setcookie('uid',$user_info->uid,time()+86400,'/','',false,true);
+        setcookie('token',$token,time()+86400,'/user','',false,true);
+        $request->session()->put('u_token',$token);
+        $request->session()->put('uid',$user_info->uid);
+
+
+
 
 
     }
