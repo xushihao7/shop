@@ -470,6 +470,7 @@ class WeixinController extends Controller
                 $request->session()->put('u_token',$token);
                 $request->session()->put('uid',$rs);
                 echo '注册成功';
+                header("refresh:1,url=/goodslist");
 
             }else{
                 echo '注册失败';
@@ -485,6 +486,8 @@ class WeixinController extends Controller
         setcookie('token',$token,time()+86400,'/user','',false,true);
         $request->session()->put('u_token',$token);
         $request->session()->put('uid',$user_info->uid);
+        echo "登录成功";
+        header("refresh:1,url=/goodslist");
 
 
 
