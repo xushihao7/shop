@@ -87,7 +87,9 @@ class WeixinController extends Controller
         $grid->uid('Uid');
         $grid->openid('Openid');
         $grid->nickname('Nickname');
-        $grid->sex('Sex');
+        $grid->column('sex','SEX')->display(function ($type) {
+            return $type == 1 ? '男' : '女';
+        });
         $grid->headimgurl('Headimgurl')->display(function($url){
             return '<img src="'.$url.'" width=100px>';
         });
