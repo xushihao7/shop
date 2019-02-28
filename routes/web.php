@@ -106,3 +106,6 @@ Route::post('/weixin/chat','Weixin\WeixinController@weixinChat');
 Route::get('/weixin/pay/test/{order_id}','Weixin\PayController@test');     //微信支付测试
 Route::post('/weixin/pay/notice','Weixin\PayController@notice');     //微信支付通知回调
 Route::get('/weixin/pay/wxsuccess','Weixin\PayController@WxSuccess');     //微信支付通知回调
+//微信登录
+Route::get('/weixin/login','Weixin\WeixinController@wxLogin');//微信登录
+Route::get('/weixin/getCode','Weixin\WeixinController@getCode');
