@@ -522,8 +522,8 @@ class WeixinController extends Controller
         //是否有缓存
         $ticket=Redis::get($this->redis_weixin_jsapi_ticket);
         if(!$ticket){
-            $access_token=$this->getWXAccessToken();
-            //$access_token="19_FtxlHjxmtnKGO9eJ5l5H4VIp9LCsgKRrGikNjB7twIpFkqTFMhyDMK8cK5dRkvmw_B5_6B-oUcjoE3r6gSUO-ULryL3Ry7MQsXQ71Oi-FoBYFqAOt6SEGGvrpRbNyYnYSaSg_1HG1pDRlpGyFBEfAAANJM";
+            //$access_token=$this->getWXAccessToken();
+            $access_token="19_FtxlHjxmtnKGO9eJ5l5H4VIp9LCsgKRrGikNjB7twIpFkqTFMhyDMK8cK5dRkvmw_B5_6B-oUcjoE3r6gSUO-ULryL3Ry7MQsXQ71Oi-FoBYFqAOt6SEGGvrpRbNyYnYSaSg_1HG1pDRlpGyFBEfAAANJM";
             $url="https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=".$access_token."&type=jsapi";
             $data = json_decode(file_get_contents($url),true);
             //echo "<pre/>";print_r($data);
