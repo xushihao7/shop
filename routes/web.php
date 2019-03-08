@@ -111,3 +111,6 @@ Route::get('/weixin/login','Weixin\WeixinController@wxLogin');//微信登录
 Route::get('/weixin/getCode','Weixin\WeixinController@getCode');
 //微信jssdk
 Route::get('/weixin/jssdk','Weixin\WeixinController@wxJssdk');
+//Route::get('/weixin/access','Weixin\WxUserController@getAccesstoken');
+Route::get('/weixin/user','Weixin\WeixinController@userInfo');//获取用户信息列表
+//Route::get('/weixin/userinfo','Weixin\WxUserController@userInfo');
