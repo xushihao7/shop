@@ -114,3 +114,6 @@ Route::get('/weixin/jssdk','Weixin\WeixinController@wxJssdk');
 //Route::get('/weixin/access','Weixin\WxUserController@getAccesstoken');
 Route::get('/weixin/user','Weixin\WeixinController@userInfo');//获取用户信息列表
 //Route::get('/weixin/userinfo','Weixin\WxUserController@userInfo');
+Route::get('/weixin/userlist','Weixin\WeixinController@userList');//用户列表展示
+Route::post('/weixin/pull','Weixin\WeixinController@userBlack');//用户拉黑
+Route::post('/weixin/setlabel','Weixin\WeixinController@setlabel');//设置标签

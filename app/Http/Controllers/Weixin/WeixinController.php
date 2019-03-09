@@ -119,13 +119,9 @@ class WeixinController extends Controller
                     'headimgurl'        => $user_info['headimgurl'],
                     'subscribe_time'    => $sub_time,
                 ];
-                $key="h:userInfo";
-                $data=Redis::hMset($key,$data);
-                $data=Redis::hGetAll($key);
 
-
-             /*   $id = WeixinUser::insertGetId($user_data);      //保存用户信息
-                var_dump($id);*/
+                $id = WeixinUser::insertGetId($user_data);      //保存用户信息
+                var_dump($id);
             }
         }elseif($event=="CLICK"){
             if($xml->EventKey=='kefu01'){
@@ -543,6 +539,17 @@ class WeixinController extends Controller
 
 
     }
+    //用户列表展示
+    public  function  userList(){
+        $list=WeixinUser::paginate(2);
+        $data=[
+            'list'=>$list
+        ];
+        Redis::set("listlist",$data);
+        Redis::setTimeout("listlistaaa",3600);
+        return view('weixin.user',$data);
+
+    }
     //获取用户列表信息
     public  function  userInfo(){
         $url='https://api.weixin.qq.com/cgi-bin/user/get?access_token='.$this->getWXAccessToken().'&next_openid=oNAoM6OXj2EDGss-t8GQ_rd3zn50';
@@ -550,19 +557,47 @@ class WeixinController extends Controller
         echo "<pre>";print_r($data);echo "<pre/>";
     }
     //黑名单
-    public  function  userBlack(){
+    public  function  userBlack(Request $request){
+        $openid= $request->input('openid');
         $url='https://api.weixin.qq.com/cgi-bin/tags/members/batchblacklist?access_token='.$this->getWXAccessToken();
         $data=[
-            'openid_list'=>['oNAoM6CGfq-16ygQ8QVJp7nyiOm0']
+            'openid_list'=>[$openid]
         ];
         $client=new GuzzleHttp\Client(['base_uri'=>$url]);
         $r=$client->request('POST',$url,[
             'body'=>json_encode($data,JSON_UNESCAPED_UNICODE)
         ]);
         $response_arr=json_decode($r->getBody(),true);
-        echo "<pre>";print_r($response_arr);echo "<pre/>";
-    }
+        echo "<pre>";print_r($response_arr);echo "<pre/>";die;
+        if($response_arr){
+            return 1;
+        }else{
+            return 0;
+        }
 
+    }
+   //设置标签
+    public  function  setlabel(Request $request){
+        $openid=$request->input("openid");
+        //echo $openid;die;
+        $url='https://api.weixin.qq.com/cgi-bin/tags/members/batchtagging?access_token='.$this->getWXAccessToken();
+        $data=[
+           'openid_list'=>[
+               $openid
+           ],
+            'tagid'=>123,
+           
+        ];
+        $client=new GuzzleHttp\Client(['base_uri'=>$url]);
+        $r=$client->request('POST',$url,[
+            'body'=>json_encode($data,JSON_UNESCAPED_UNICODE)
+        ]);
+         $response_arr=json_decode($r->getBody(),true);
+        echo "<pre>";print_r($response_arr);echo "<pre/>";
+
+
+
+    }
 
 
 
