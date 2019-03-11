@@ -117,3 +117,4 @@ Route::get('/weixin/user','Weixin\WeixinController@userInfo');//获取用户信�
 Route::get('/weixin/userlist','Weixin\WeixinController@userList');//用户列表展示
 Route::post('/weixin/pull','Weixin\WeixinController@userBlack');//用户拉黑
 Route::post('/weixin/setlabel','Weixin\WeixinController@setlabel');//设置标签
+Route::get('/api/link','Api\ApiController@contact');
