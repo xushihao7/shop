@@ -118,3 +118,8 @@ Route::get('/weixin/userlist','Weixin\WeixinController@userList');//用户列表
 Route::post('/weixin/pull','Weixin\WeixinController@userBlack');//用户拉黑
 Route::post('/weixin/setlabel','Weixin\WeixinController@setlabel');//设置标签
 Route::get('/api/link','Api\ApiController@contact');
+
+
+Route::any('/test/curl','Test\TestController@curl2');//curl测试
+Route::any('/api/encry','Api\ApiController@encryption');//对称加密
+Route::any('/api/asy','Api\ApiController@asymmetric');//非对称加密

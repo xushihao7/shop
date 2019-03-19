@@ -78,6 +78,13 @@ class TestController extends Controller
         echo __METHOD__;
     }
 
+	public function curl2(){
+
+	    echo "<pre>";print_r($_GET);echo "<pre/>";
+		echo "<pre>";print_r($_POST);echo "<pre/>";
+	}
+
+
 
 
 

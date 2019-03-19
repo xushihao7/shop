@@ -126,7 +126,7 @@ class AlipayController extends Controller
     }
 
 
-    public function getSignContent($params) {
+    public function  getSignContent($params) {
         ksort($params);
         $stringToBeSigned = "";
         $i = 0;
