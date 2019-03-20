@@ -83,11 +83,17 @@ class ApiController extends Controller
         ];
         $res=UserModel::where($where)->first();
         if($res){
-           return 1;
+           $response=[
+               'error'=>0,
+               'msg'=>"登录成功"
+           ];
         }else{
-           return 2;
+           $response=[
+               'error'=>50001,
+               'msg'=>'登录失败'
+           ];
         }
-
+       return $response;
     }
 
 }
