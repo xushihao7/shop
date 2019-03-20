@@ -6,6 +6,9 @@
     <meta name="csrf-token" content="{{csrf_token()}}">
     <title>微商城</title>
     <link rel="stylesheet" href="{{URL::asset('/bootstrap/css/bootstrap.min.css')}}">
+    <link rel="shortcut icon" href="/favicon.ico"/>
+    <link rel="bookmark" href="/favicon.ico"/>
+
 </head>
 <body>
 
