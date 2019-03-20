@@ -71,7 +71,7 @@ class ApiController extends Controller
                   'msg'=>"数据未收到".$username
               ];
           }
-          return $response;co
+          echo json_encode($response);
     }
 
 }
