@@ -57,5 +57,21 @@ class ApiController extends Controller
         openssl_free_key($res);
         var_dump($result);
     }
+    //连接app
+    public  function  application(Request $request){
+          $username=$request->input("username");
+          if($username){
+              $response=[
+                  'error'=>0,
+                  'msg'=>"数据已经收到:".$username
+              ];
+          }else{
+              $response=[
+                  'error'=>5001,
+                  'msg'=>"数据未收到".$username
+              ];
+          }
+          return $response;co
+    }
 
 }
