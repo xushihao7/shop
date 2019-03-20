@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Model\UserModel;
 use GuzzleHttp\Client;
 class ApiController extends Controller
 {
@@ -72,6 +73,21 @@ class ApiController extends Controller
               ];
           }
           return $response;
+    }
+    //接口登录
+    public  function  login(Request $request){
+        $email=$request->input("email");
+        $passwd=$request->input("passwd");
+        $where=[
+            'email'=>$email
+        ];
+        $res=UserModel::where($where)->first();
+        if($res){
+           return 1;
+        }else{
+           return 2;
+        }
+
     }
 
 }

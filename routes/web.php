@@ -124,4 +124,5 @@ Route::any('/test/curl','Test\TestController@curl2');//curl测试
 Route::any('/api/encry','Api\ApiController@encryption');//对称加密
 Route::any('/api/asy','Api\ApiController@asymmetric');//非对称加密
 
-Route::post('/api/app','Api\ApiController@application');
+Route::post('/api/app','Api\ApiController@application');//app接口调试
+Route::post('/api/login','Api\ApiController@login');//app登录
