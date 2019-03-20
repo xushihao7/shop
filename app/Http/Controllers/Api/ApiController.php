@@ -77,20 +77,33 @@ class ApiController extends Controller
     //接口登录
     public  function  login(Request $request){
         $email=$request->input("email");
-        $passwd=$request->input("passwd");
+        $pwd=$request->input("pwd");
         $where=[
             'email'=>$email
         ];
         $res=UserModel::where($where)->first();
         if($res){
-           $response=[
-               'error'=>0,
-               'msg'=>"登录成功"
-           ];
+            if(password_verify($pwd,$res->pwd)){
+                $token=substr(md5(time().mt_rand(1,99999)),10,10);
+                setcookie("uid",$res->uid,time()+86400,"/",'',false,true);
+                setcookie("uname",$res->name,time()+86400,"/",'',false,true);
+                setcookie("token",$token,time()+86400,"/user","",false,true);
+                $request->session()->put('u_token',$token);
+                $request->session()->put("uid",$res->uid);
+                $response=[
+                    'error'=>0,
+                    'msg'=>'登录成功'
+                ];
+            }else{
+                $response=[
+                    'error'=>50001,
+                    'msg'=>'登录失败,密码错误'
+                ];
+            }
         }else{
            $response=[
                'error'=>50001,
-               'msg'=>'登录失败'
+               'msg'=>'登录失败,账号错误'
            ];
         }
        return $response;
