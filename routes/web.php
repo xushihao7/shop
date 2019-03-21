@@ -11,9 +11,10 @@
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
+});*/
+Route::get('/','Index\IndexController@index')->middleware("check.passport");
 /*Route::get('/', function () {
     phpinfo();
 });*/
@@ -126,3 +127,4 @@ Route::any('/api/asy','Api\ApiController@asymmetric');//非对称加密
 
 Route::post('/api/app','Api\ApiController@application');//app接口调试
 Route::post('/api/login','Api\ApiController@login');//app登录
+Route::post('/api/register','Api\ApiController@register');//app注册

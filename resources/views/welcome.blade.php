@@ -67,17 +67,25 @@
     </head>
     <body>
         <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-                        <a href="{{ route('register') }}">Register</a>
-                    @endauth
-                </div>
-            @endif
+            <div class="top-right links">
+                @if($login == 1)
+                    <a href="{{ url('/home') }}">Home</a>
+                @else
+                    <a href="http://passport.xushihao.com/login?redirect={{$url}}">Login</a>
+                    <a href="http://passport.xushihao.com/register?redirect={{$url}}">Register</a>
+                @endif
+            </div>
 
+            {{-- @if (Route::has('login'))
+                 <div class="top-right links">
+                     @auth
+                         <a href="{{ url('/home') }}">Home</a>
+                     @else
+                         <a href="{{ route('login') }}">Login</a>
+                         <a href="{{ route('register') }}">Register</a>
+                     @endauth
+                 </div>
+             @endif--}}
             <div class="content">
                 <div class="title m-b-md">
                     Laravel

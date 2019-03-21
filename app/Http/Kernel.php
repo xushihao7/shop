@@ -5,6 +5,7 @@ namespace App\Http;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use App\Http\Middleware\CheckCookie;
 use App\Http\Middleware\CheckLogin;
+use App\Http\Middleware\CheckPassport;
 class Kernel extends HttpKernel
 {
     /**
@@ -60,5 +61,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'check.cookie'  => CheckCookie::class,
         'check.login'=>CheckLogin::class,
+        'check.passport'=>CheckPassport::class,
     ];
 }

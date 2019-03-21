@@ -58,7 +58,7 @@ class ApiController extends Controller
         openssl_free_key($res);
         var_dump($result);
     }
-    //连接app
+    //连接app测试
     public  function  application(Request $request){
           $username=$request->input("username");
           if($username){
@@ -107,6 +107,26 @@ class ApiController extends Controller
            ];
         }
        return $response;
+    }
+    //接口注册
+    public  function  register(Request $request){
+        $username=$request->input("username");
+        $pwd=$request->input("pwd");
+        $email=$request->input("email");
+        $age=$request->input("age");
+        $where=[
+            'name'=>$username
+        ];
+        $count=UserModel::where($where)->count();
+        if($count>0){
+            $response=[
+                'error'=>'5001',
+                'msg'=>'账号已经存在'
+            ];
+        }else{
+
+        }
+
     }
 
 }
