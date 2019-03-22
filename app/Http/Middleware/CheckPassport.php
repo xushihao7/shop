@@ -17,8 +17,11 @@ class CheckPassport
     {
         if(isset($_COOKIE['uid']) && isset($_COOKIE['token'])){
             //验证token
-            $key = 's:token:' . $_COOKIE['uid'];
-            $token = Redis::get($key);
+            $key = 'h:token:'.$_COOKIE['uid'];
+            $token = Redis::hGetAll($key);
+            foreach($token as $k=>$v){
+                $token=$v;
+            }
             if($token == $_COOKIE['token']){
                 $request->attributes->add(['is_login'=>1]);
             }else{

@@ -110,7 +110,7 @@ class ApiController extends Controller
     }
     //接口注册
     public  function  register(Request $request){
-        $username=$request->input("username");
+        $username=$request->input("name");
         $pwd=$request->input("pwd");
         $email=$request->input("email");
         $age=$request->input("age");
@@ -141,9 +141,8 @@ class ApiController extends Controller
                 setcookie("uid",$uid,time()+86400,"/",'',false,true);
                 setcookie("uname",$username,time()+86400,"/",'',false,true);
                 setcookie("token",$token,time()+86400,"/user","",false,true);
-                $request->session()->put("u_token",$token);
-                $request->session()->put("uid",$uid);
-                header("refresh:1,url=/user/center");
+
+
             }else{
                 $response=[
                     'error'=>'5001',
