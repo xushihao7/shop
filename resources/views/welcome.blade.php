@@ -70,9 +70,11 @@
             <div class="top-right links">
                 @if($login == 1)
                     <a href="{{ url('/home') }}">Home</a>
+                    <a href="http://passport.xushihao.com/quit">退出</a>
                 @else
-                    <a href="http://passport.xushihao.com/login?redirect={{$url}}">Login</a>
-                    <a href="http://passport.xushihao.com/register?redirect={{$url}}">Register</a>
+                    <a href="http://passport.xushihao.com/login?redirect={{$url}}">登录</a>
+                    <a href="http://passport.xushihao.com/register?redirect={{$url}}">注册</a>
+
                 @endif
             </div>
 

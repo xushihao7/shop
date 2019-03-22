@@ -140,7 +140,7 @@ class ApiController extends Controller
                 $token=substr(md5(time().mt_rand(1,99999)),10,10);
                 setcookie("uid",$uid,time()+86400,"/",'',false,true);
                 setcookie("uname",$username,time()+86400,"/",'',false,true);
-                setcookie("token",$token,time()+86400,"/user","",false,true);
+                setcookie("token",$token,time()+86400,"/","",false,true);
 
 
             }else{
