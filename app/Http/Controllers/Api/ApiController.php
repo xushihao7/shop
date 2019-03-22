@@ -144,8 +144,9 @@ class ApiController extends Controller
         curl_setopt($ch,CURLOPT_POSTFIELDS,$data);
         $rs=curl_exec($ch);
         echo $rs;
-        $response=json_encode($rs,true);
+        $response=json_decode($rs,true);
         return $response;
+        //var_dump($response);die;
 
     }
 
