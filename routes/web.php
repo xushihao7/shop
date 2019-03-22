@@ -128,3 +128,4 @@ Route::any('/api/asy','Api\ApiController@asymmetric');//非对称加密
 Route::post('/api/app','Api\ApiController@application');//app接口调试
 Route::post('/api/login','Api\ApiController@login');//app登录
 Route::post('/api/register','Api\ApiController@register');//app注册
+Route::post('/apiLogin','Api\ApiController@apiLogin');//app passport登录

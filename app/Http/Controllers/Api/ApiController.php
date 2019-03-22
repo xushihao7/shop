@@ -136,7 +136,7 @@ class ApiController extends Controller
             'name'=>$name,
             'pwd'=>$pwd
         ];
-        $url="http://passport.xsh.wangby.cn";
+        $url="http://passport.xsh.wangby.cn/apiLogin";
         $ch=curl_init();
         curl_setopt($ch,CURLOPT_URL,$url);
         curl_setopt($ch,CURLOPT_POST,1);
@@ -144,6 +144,8 @@ class ApiController extends Controller
         curl_setopt($ch,CURLOPT_POSTFIELDS,$data);
         $rs=curl_exec($ch);
         echo $rs;
+        $response=json_encode($rs);
+        return $response;
 
     }
 
