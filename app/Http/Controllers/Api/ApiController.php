@@ -128,5 +128,23 @@ class ApiController extends Controller
         }
 
     }
+    //passport验证
+    public  function  apiLogin(Request $request){
+        $name=$request->input("name");
+        $pwd=$request->input("pwd");
+        $data=[
+            'name'=>$name,
+            'pwd'=>$pwd
+        ];
+        $url="http://passport.xsh.wangby.cn";
+        $ch=curl_init();
+        curl_setopt($ch,CURLOPT_URL,$url);
+        curl_setopt($ch,CURLOPT_POST,1);
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+        curl_setopt($ch,CURLOPT_POSTFIELDS,$data);
+        $rs=curl_exec($ch);
+        echo $rs;
+
+    }
 
 }
