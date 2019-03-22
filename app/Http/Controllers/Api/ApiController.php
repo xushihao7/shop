@@ -76,10 +76,10 @@ class ApiController extends Controller
     }
     //接口登录
     public  function  login(Request $request){
-        $email=$request->input("email");
+        $name=$request->input("name");
         $pwd=$request->input("pwd");
         $where=[
-            'email'=>$email
+            'name'=>$name
         ];
         $res=UserModel::where($where)->first();
         if($res){
@@ -144,7 +144,7 @@ class ApiController extends Controller
         curl_setopt($ch,CURLOPT_POSTFIELDS,$data);
         $rs=curl_exec($ch);
         echo $rs;
-        $response=json_encode($rs);
+        $response=json_encode($rs,true);
         return $response;
 
     }
