@@ -124,8 +124,34 @@ class ApiController extends Controller
                 'msg'=>'账号已经存在'
             ];
         }else{
-
+            $data=[
+                'name'=>$username,
+                'pwd'=>$pwd,
+                'age'=>$age,
+                'email'=>$email,
+                'reg_time'=>time()
+            ];
+            $uid=UserModel::insertGetId($data);
+            if($uid){
+                $response=[
+                    'error'=>'0',
+                    'msg'=>'注册成功'
+                ];
+                $token=substr(md5(time().mt_rand(1,99999)),10,10);
+                setcookie("uid",$uid,time()+86400,"/",'',false,true);
+                setcookie("uname",$username,time()+86400,"/",'',false,true);
+                setcookie("token",$token,time()+86400,"/user","",false,true);
+                $request->session()->put("u_token",$token);
+                $request->session()->put("uid",$uid);
+                header("refresh:1,url=/user/center");
+            }else{
+                $response=[
+                    'error'=>'5001',
+                    'msg'=>'注册失败'
+                ];
+            }
         }
+        return $response;
 
     }
     //passport验证
