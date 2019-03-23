@@ -193,7 +193,7 @@ class ApiController extends Controller
                 ];
             }else{
                 $response=[
-                    'error'=>'50002',
+                    'error'=>50002,
                     'msg'=>'token错误,非法登录'
                 ];
             }
