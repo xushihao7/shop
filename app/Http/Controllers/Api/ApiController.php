@@ -178,7 +178,7 @@ class ApiController extends Controller
     public  function  center(Request $request){
         $uid=$request->input("uid");
         $token=$request->input("token");
-        if(empty($uid || $token)){
+        if(empty($uid) || empty($token)){
             $response=[
                 'error'=>50001,
                 'msg'=>'请重新登录'
