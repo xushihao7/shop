@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\UserModel;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Redis;
+
 class ApiController extends Controller
 {
     public  function  contact(){
@@ -139,9 +141,7 @@ class ApiController extends Controller
                 ];
                 $token=substr(md5(time().mt_rand(1,99999)),10,10);
                 setcookie("uid",$uid,time()+86400,"/",'',false,true);
-                setcookie("uname",$username,time()+86400,"/",'',false,true);
                 setcookie("token",$token,time()+86400,"/","",false,true);
-
 
             }else{
                 $response=[
@@ -172,6 +172,33 @@ class ApiController extends Controller
         $response=json_decode($rs,true);
         return $response;
         //print_r($response);die;
+
+    }
+    //app退出
+    public  function  center(Request $request){
+        $uid=$request->input("uid");
+        $token=$request->input("token");
+        if(empty($uid || $token)){
+            $response=[
+                'error'=>50001,
+                'msg'=>'请重新登录'
+            ];
+        }else{
+            $key="h:token:".$uid;
+            $redis_token=Redis::get($key,"android");
+            if($token==$redis_token){
+                $response=[
+                    'error'=>0,
+                    'msg'=>'token正确'
+                ];
+            }else{
+                $response=[
+                    'error'=>'50002',
+                    'msg'=>'token错误,非法登录'
+                ];
+            }
+        }
+        return $response;
 
     }
 
