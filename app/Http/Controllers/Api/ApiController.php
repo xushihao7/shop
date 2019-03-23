@@ -186,12 +186,7 @@ class ApiController extends Controller
         }else{
             $key="h:token:".$uid;
             $redis_token=Redis::hget($key,"android");
-            if($token==$redis_token){
-                $response=[
-                    'error'=>0,
-                    'msg'=>'token正确'
-                ];
-            }else{
+            if($token!=$redis_token){
                 $response=[
                     'error'=>50002,
                     'msg'=>'token错误,非法登录'
