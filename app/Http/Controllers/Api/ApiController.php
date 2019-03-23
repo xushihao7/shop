@@ -183,17 +183,25 @@ class ApiController extends Controller
                 'error'=>50001,
                 'msg'=>'请重新登录'
             ];
+            return $response;
         }else{
             $key="h:token:".$uid;
-            $redis_token=Redis::hget($key,"android");
+            $redis_token=Redis::hGet($key,"android");
+            //var_dump($redis_token);die;
             if($token!=$redis_token){
                 $response=[
                     'error'=>50002,
                     'msg'=>'token错误,非法登录'
                 ];
+            }else{
+                $response=[
+                    'error'=>50001,
+                    'msg'=>'token正确'
+                ];
             }
+            return $response;
         }
-        return $response;
+
 
     }
 
