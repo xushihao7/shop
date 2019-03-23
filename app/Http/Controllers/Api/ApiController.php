@@ -195,7 +195,7 @@ class ApiController extends Controller
                 ];
             }else{
                 $response=[
-                    'error'=>50001,
+                    'error'=>0,
                     'msg'=>'token正确'
                 ];
             }
