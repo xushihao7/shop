@@ -130,3 +130,10 @@ Route::post('/api/login','Api\ApiController@login');//app登录
 Route::post('/api/register','Api\ApiController@register');//app注册
 Route::post('/apiLogin','Api\ApiController@apiLogin');//app passport登录
 Route::post('/api/center','Api\ApiController@center');//app退出
+
+Route::get('/api/pay','Api\ApiController@pay');//app支付
+Route::get('/api/app/return','Api\ApiController@appReturn');//app支付
+
+
+
+

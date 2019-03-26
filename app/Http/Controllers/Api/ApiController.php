@@ -10,6 +10,21 @@ use Illuminate\Support\Facades\Redis;
 
 class ApiController extends Controller
 {
+    public  $app_id;
+    public  $gate_way;
+    public  $notify_url;
+    public  $return_url;
+    public  $rsaPrivateKeyFilePath="./key/priv.key";
+    public  $aliPubKey='./key/ali_pub.key';
+    public  function  __construct()
+    {
+        $this->app_id=env('APP_APPID');
+        $this->gate_way=env('APP_GATEWAY');
+        $this->notify_url=env("APP_NOTIFY");
+        $this->return_url=env("APP_RETURN");
+    }
+
+
     public  function  contact(){
         $url='http://vm.api.com/test.php?type=1';
         $client=new Client();
@@ -153,7 +168,7 @@ class ApiController extends Controller
         return $response;
 
     }
-    //passport验证
+    //passport登录
     public  function  apiLogin(Request $request){
         $name=$request->input("name");
         $pwd=$request->input("pwd");
@@ -203,6 +218,35 @@ class ApiController extends Controller
         }
 
 
+    }
+    //app支付
+    public  function  pay(){
+        $order_id=mt_rand(10000,99999);
+
+        $bizcont = [
+            'subject'           => 'lening_shop: '.$order_id,
+            'out_trade_no'      => $order_id,
+            'total_amount'      => 10,
+            'product_code'      => 'QUICK_WAP_WAY',
+
+        ];
+        //公共参数
+        $data = [
+            'app_id'   => $this->app_id,
+            'method'   => 'alipay.trade.wap.pay',
+            'format'   => 'JSON',
+            'charset'   => 'utf-8',
+            'sign_type'   => 'RSA2',
+            'timestamp'   => date('Y-m-d H:i:s'),
+            'version'   => '1.0',
+            'notify_url'   => $this->notify_url,        //异步通知地址
+            'return_url'   => $this->return_url,        // 同步通知地址
+            'biz_content'   => json_encode($bizcont),
+        ];
+
+    }
+    public  function  appReturn(){
+        echo "<pre>";print_r($_GET);echo '</pre>';
     }
 
 }

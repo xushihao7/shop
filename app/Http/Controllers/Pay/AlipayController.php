@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Model\OrderModel;
 class AlipayController extends Controller
 {
-    public  $app_id;
+       public  $app_id;
     public  $gate_way;
     public  $notify_url;
     public  $return_url;

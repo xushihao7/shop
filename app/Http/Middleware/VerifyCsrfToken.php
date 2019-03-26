@@ -20,6 +20,6 @@ class VerifyCsrfToken extends Middleware
         '/weixin/pay/notice',
         '/api/*',
         'apiLogin',
-        
+
     ];
 }
