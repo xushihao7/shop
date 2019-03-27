@@ -134,6 +134,7 @@ Route::post('/api/center','Api\ApiController@center');//app退出
 Route::get('/api/pay','Api\ApiController@pay');//app支付
 Route::get('/api/app/return','Api\ApiController@appReturn');//app支付
 
+Route::get('/goods/list','Api\ApiController@goodsList');//app商品列表
 
 
 

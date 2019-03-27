@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Model\UserModel;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Redis;
+use App\Model\GoodsModel;
 
 class ApiController extends Controller
 {
@@ -247,6 +248,13 @@ class ApiController extends Controller
     }
     public  function  appReturn(){
         echo "<pre>";print_r($_GET);echo '</pre>';
+    }
+
+
+
+    public  function  goodsList(){
+        $goodsInfo=GoodsModel::get();
+        return $goodsInfo;
     }
 
 }
