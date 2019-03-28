@@ -220,6 +220,27 @@ class ApiController extends Controller
 
 
     }
+
+
+
+    //商品列表
+    public  function  goodsList(){
+        $goodsInfo=GoodsModel::get();
+        return $goodsInfo;
+    }
+
+    //商品详情
+    public  function goodsDetail(Request $request){
+        $goods_id=$request->input("goods_id");
+        $where=[
+            'goods_id'=>$goods_id
+        ];
+        $goodsInfo=GoodsModel::where($where)->first();
+        return $goodsInfo;
+    }
+
+
+
     //app支付
     public  function  pay(){
         $order_id=mt_rand(10000,99999);
@@ -248,13 +269,6 @@ class ApiController extends Controller
     }
     public  function  appReturn(){
         echo "<pre>";print_r($_GET);echo '</pre>';
-    }
-
-
-
-    public  function  goodsList(){
-        $goodsInfo=GoodsModel::get();
-        return $goodsInfo;
     }
 
 }
