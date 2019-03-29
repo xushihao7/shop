@@ -130,6 +130,14 @@ class ApiController extends Controller
     public  function  register(Request $request){
         $username=$request->input("name");
         $pwd=$request->input("pwd");
+        $pwd2=$request->input("pwd2");
+        if($pwd!=$pwd2){
+            $response=[
+                'error'=>40001,
+                'msg'=>"确认密码和密码不一致"
+            ];
+            return $response;
+        }
         $email=$request->input("email");
         $age=$request->input("age");
         $where=[
@@ -151,13 +159,18 @@ class ApiController extends Controller
             ];
             $uid=UserModel::insertGetId($data);
             if($uid){
+                $token=substr(md5(time().mt_rand(1,99999)),10,10);
+                $key="h:token:".$uid;
+                Redis::del($key);
+                Redis::hSet($key,"android",$token);
                 $response=[
                     'error'=>'0',
-                    'msg'=>'注册成功'
+                    'msg'=>'注册成功',
+                    'uid'=>$uid,
+                    'name'=>$username,
+                    'token'=>$token
                 ];
-                $token=substr(md5(time().mt_rand(1,99999)),10,10);
-                setcookie("uid",$uid,time()+86400,"/",'',false,true);
-                setcookie("token",$token,time()+86400,"/","",false,true);
+
 
             }else{
                 $response=[
