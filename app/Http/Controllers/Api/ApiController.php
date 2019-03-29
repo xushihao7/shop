@@ -150,6 +150,7 @@ class ApiController extends Controller
                 'msg'=>'账号已经存在'
             ];
         }else{
+            $pwd=password_hash($pwd,PASSWORD_BCRYPT);
             $data=[
                 'name'=>$username,
                 'pwd'=>$pwd,
