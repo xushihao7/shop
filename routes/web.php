@@ -135,6 +135,6 @@ Route::get('/api/pay','Api\ApiController@pay');//app支付
 Route::get('/api/app/return','Api\ApiController@appReturn');//app支付
 
 Route::get('/api/goodlist','Api\ApiController@goodsList');//app商品列表
-Route::get('/api/goodinfo','Api\ApiController@goodsDetail');//app商品详情
+Route::post('/api/goodinfo','Api\ApiController@goodsDetail');//app商品详情
 
 
