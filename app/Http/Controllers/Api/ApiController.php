@@ -252,9 +252,6 @@ class ApiController extends Controller
         $goodsInfo=GoodsModel::where($where)->first();
         return $goodsInfo;
     }
-
-
-
     //app支付
     public  function  pay(){
         $order_id=mt_rand(10000,99999);

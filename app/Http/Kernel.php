@@ -6,6 +6,8 @@ use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use App\Http\Middleware\CheckCookie;
 use App\Http\Middleware\CheckLogin;
 use App\Http\Middleware\CheckPassport;
+use App\Http\Middleware\CheckApply;
+use App\Http\Middleware\CheckApi;
 class Kernel extends HttpKernel
 {
     /**
@@ -62,5 +64,7 @@ class Kernel extends HttpKernel
         'check.cookie'  => CheckCookie::class,
         'check.login'=>CheckLogin::class,
         'check.passport'=>CheckPassport::class,
+        'check.apply'=>CheckApply::class,
+        'check.api'=>CheckApi::class,
     ];
 }

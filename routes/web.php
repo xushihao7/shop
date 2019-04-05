@@ -138,3 +138,9 @@ Route::get('/api/goodlist','Api\ApiController@goodsList');//app商品列表
 Route::post('/api/goodinfo','Api\ApiController@goodsDetail');//app商品详情
 
 
+Route::get('/apply','Apply\IndexController@apply');//用户申请
+Route::post('/apply/success','Apply\IndexController@success');//待审核
+Route::get('/shenhe','Apply\IndexController@shenhe');//审核请求
+Route::get('/apply/pass/{uid}','Apply\IndexController@pass');//审核通过
+Route::post('/api/redis','Apply\IndexController@redis')->middleware("check.apply");//审核通过
+Route::post('/api/interface','Apply\IndexController@api')->middleware("check.api");//审核通过
