@@ -116,13 +116,11 @@ class IndexController extends Controller
 
     }
 
-    public  function  api(Request $request){
-       $name=$request->input("name");
-       $pwd=$request->input("pwd");
-       $data=[
-           'name'=>$name,
-           'pwd'=>$pwd
-       ];
-       return json_encode($data);
+    public  function  api(){
+        return [
+            'status'=>1000,
+            'msg'=>'ok',
+            'data'=>[]
+        ];
     }
 }
